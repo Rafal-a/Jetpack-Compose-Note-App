@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -15,7 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,35 +37,34 @@ data class Note(
 )
 
 @Composable
-fun NoteDesign() {
+fun NoteDesign(title: String="place holder" , content: String="place holder", date: String="place holder" ) {
     Card(onClick = {}, modifier = Modifier
+        .wrapContentWidth()
         .fillMaxWidth()
-        .padding(horizontal = 4.dp, vertical = 4.dp),
+        .padding(horizontal = 8.dp, vertical = 6.dp),
         colors = CardDefaults.cardColors(CardColors.PINK.color)) {
         Column(modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Title",
-                    modifier = Modifier
-                        .weight(3f),
+                    text = title,
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = "2025-12-8",
-                    modifier = Modifier
-                        .weight(1f),
-                    maxLines = 1
+                    text = date,
+                    maxLines = 1,
+                    textAlign = TextAlign.End
                 )
             }
             Text(
-                text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+                text = content,
                 modifier = Modifier
                     .padding(horizontal = 6.dp, vertical = 4.dp)
                     .fillMaxWidth(1f),
-                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -71,24 +74,14 @@ fun NoteDesign() {
 @Composable
 fun NoteList() {
     Column() {
-        NoteDesign()
-        NoteDesign()
-        NoteDesign()
-        NoteDesign()
+        NoteDesign("title", "content","2025-12-8")
+        NoteDesign("title 2", "content2","2025-12-9")
+        NoteDesign("title 3", "content 3","2025-12-10")
+        NoteDesign("title 4", "content 4","2025-12-11")
     }
 }
 @Composable
 @Preview (showBackground = true)
 fun NotePreview(){
     NoteDesign()
-}
-
-@OptIn(ExperimentalTime::class)
-fun data(): List<Note>{
-
-    return listOf<Note>(
-        Note(1, "Title 1", "Content 1","2025-12-8" ),
-        Note(2, "Title 2", "Content 2", "2025-12-8"),
-        Note(3, "Title 3", "Content 3", "2025-12-8"))
-
 }
