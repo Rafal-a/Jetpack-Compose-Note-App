@@ -20,7 +20,7 @@ abstract class NotesDatabase : RoomDatabase() {
         private var instance: NotesDatabase? = null
 
         // synchronized makes sure to have only one instance of the database and if it doesn't exist then build  a new one
-        private fun getInstance(context: Context): NotesDatabase {
+         fun getInstance(context: Context): NotesDatabase {
             return instance ?: synchronized(this) {
                 Room.databaseBuilder(
                     context.applicationContext,
@@ -31,6 +31,10 @@ abstract class NotesDatabase : RoomDatabase() {
 
 
             }
+        }
+
+        fun getInstanceWithoutContext(): NotesDatabase {
+            return instance!!
         }
     }
 }
