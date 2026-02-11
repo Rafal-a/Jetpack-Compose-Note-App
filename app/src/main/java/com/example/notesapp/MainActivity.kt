@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
             NotesAppTheme {
                Scaffold(modifier = Modifier.fillMaxSize()
                ) { innerPadding ->
-                   NoteList()
+                   NotePage(padding = innerPadding)
                }
             }
         }

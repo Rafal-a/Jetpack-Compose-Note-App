@@ -24,8 +24,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.materialcore.currentTimeMillis
 import com.example.notesapp.ui.theme.CardColors
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
@@ -37,12 +40,13 @@ data class Note(
 )
 
 @Composable
-fun NoteDesign(title: String="place holder" , content: String="place holder", date: String="place holder" ) {
+fun NoteDesign(title: String="place holder" , content: String="place holder", date: Date = Date() ) {
     Card(onClick = {}, modifier = Modifier
         .wrapContentWidth()
         .fillMaxWidth()
         .padding(horizontal = 8.dp, vertical = 6.dp),
-        colors = CardDefaults.cardColors(CardColors.PINK.color)) {
+        colors = CardDefaults.cardColors(Binding.bindingColors().color),
+        shape = RoundedCornerShape(10.dp)) {
         Column(modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -55,7 +59,7 @@ fun NoteDesign(title: String="place holder" , content: String="place holder", da
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = date,
+                    text = SimpleDateFormat("HH:mm:aa", Locale.ENGLISH).format(date),
                     maxLines = 1,
                     textAlign = TextAlign.End
                 )
@@ -73,12 +77,22 @@ fun NoteDesign(title: String="place holder" , content: String="place holder", da
 
 @Composable
 fun NoteList() {
-    Column() {
-        NoteDesign("title", "content","2025-12-8")
-        NoteDesign("title 2", "content2","2025-12-9")
-        NoteDesign("title 3", "content 3","2025-12-10")
-        NoteDesign("title 4", "content 4","2025-12-11")
-    }
+        NoteDesign("title", "content",)
+        NoteDesign("title 2", "content2",)
+        NoteDesign("title 3", "content 3",)
+        NoteDesign("title 4", "content 4",)
+        NoteDesign("title", "content",)
+        NoteDesign("title 2", "content2",)
+        NoteDesign("title 3", "content 3")
+        NoteDesign("title 4", "content 4")
+        NoteDesign("title", "content")
+        NoteDesign("title 2", "content2")
+        NoteDesign("title 3", "content 3",)
+        NoteDesign("title 4", "content 4")
+        NoteDesign("title", "content")
+        NoteDesign("title 2", "content2",)
+        NoteDesign("title 3", "content 3",)
+        NoteDesign("title 4", "content 4")
 }
 @Composable
 @Preview (showBackground = true)
