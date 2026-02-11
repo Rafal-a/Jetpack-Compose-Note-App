@@ -5,18 +5,18 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotesDao{
-    @Query("SELECT * FROM Notes")
-    fun getAllNotes(): List<Note>
-    @Query("SELECT * FROM Notes WHERE id = :id")
-    fun getNoteById(id: Int): Note
-    @Insert
-    fun insertNote(note: Note)
-    @Delete
-    fun deleteNoteById(id: Int)
-    @Update
-    fun updateNote(id: Int, title: String, content: String)
 
+    @Insert
+    suspend fun  insertNote(note: Note)
+    @Delete
+    suspend fun deleteNoteById(note: Note)
+    @Update
+    suspend fun updateNote(note: Note)
+
+    @Query("SELECT * FROM Notes")
+    fun getAllNotes(): Flow<List<Note>> // Flow for getting all the notes without refresh :D
 }
