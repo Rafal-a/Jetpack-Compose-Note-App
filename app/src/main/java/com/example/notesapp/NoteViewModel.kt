@@ -1,41 +1,43 @@
 package com.example.notesapp
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.collections.emptyList
+import kotlin.time.Duration.Companion.seconds
 
-class NoteViewModel(application: Application): AndroidViewModel(application) {
+class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    private val repository: NoteRepository
-    val notes: Flow<List<Note>>
+    val notes: StateFlow<List<NoteEntity>> = repository.getAllNotes().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5.seconds)
+        ,initialValue = emptyList())
 
-    init {
-        val database= NotesDatabase.getInstance(application)
-        val dao = database.notesDao()
-        repository = NoteRepository(dao)
-        notes = repository.getAllNotes()
-    }
 
-    suspend fun insertNote(note: Note) {
+
+    fun insertNote(note: NoteEntity) {
         viewModelScope.launch {
             repository.insertNote(note)
         }
     }
-    suspend fun deleteNoteById(note: Note) {
+
+    fun deleteNoteById(note: NoteEntity) {
         viewModelScope.launch {
             repository.deleteNoteById(note)
         }
     }
-    suspend fun updateNote(note: Note) {
+
+    fun updateNote(note: NoteEntity) {
         viewModelScope.launch {
             repository.updateNote(note)
         }
     }
-
 }
-
-

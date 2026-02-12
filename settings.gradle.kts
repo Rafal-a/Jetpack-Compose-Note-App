@@ -7,6 +7,7 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -21,4 +22,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Notes App"
 include(":app")
- 

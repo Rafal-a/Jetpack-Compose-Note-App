@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 
-@Database(entities = [Note::class], version = Constants.TABLE_VERSION)
+@Database(entities = [NoteEntity::class], version = Constants.TABLE_VERSION)
 @TypeConverters(Converter::class) // bring converters from Converter class
 
 abstract class NotesDatabase : RoomDatabase() {
@@ -23,18 +23,16 @@ abstract class NotesDatabase : RoomDatabase() {
          fun getInstance(context: Context): NotesDatabase {
             return instance ?: synchronized(this) {
                 Room.databaseBuilder(
-                    context.applicationContext,
-                    NotesDatabase::class.java,
-                    Constants.TABLE_NAME
-                ).build()
+                                context.applicationContext,
+                                NotesDatabase::class.java,
+                                Constants.DATABASE_NAME
+
+                            ).fallbackToDestructiveMigration(true)
+                    .build()
                     .also { instance = it  } // make sure to update the instance value
 
 
             }
-        }
-
-        fun getInstanceWithoutContext(): NotesDatabase {
-            return instance!!
         }
     }
 }

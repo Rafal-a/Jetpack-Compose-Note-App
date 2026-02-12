@@ -6,8 +6,12 @@ import java.sql.Date
 class Converter {
 
     @TypeConverter
-    fun convertToDate(date: Long)= Date(date)
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
 
     @TypeConverter
-    fun convertToLong(date: Date)= date.time
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
 }

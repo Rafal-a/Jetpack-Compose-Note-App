@@ -1,5 +1,6 @@
 package com.example.notesapp
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -11,12 +12,12 @@ import kotlinx.coroutines.flow.Flow
 interface NotesDao{
 
     @Insert
-    suspend fun  insertNote(note: Note)
+    suspend fun  insertNote(note: NoteEntity)
     @Delete
-    suspend fun deleteNoteById(note: Note)
+    suspend fun deleteNote(note: NoteEntity)
     @Update
-    suspend fun updateNote(note: Note)
+    suspend fun updateNote(note: NoteEntity)
 
-    @Query("SELECT * FROM Notes")
-    fun getAllNotes(): Flow<List<Note>> // Flow for getting all the notes without refresh :D
+    @Query("SELECT * FROM ${Constants.TABLE_NAME}")
+    fun getAllNotes(): Flow<List<NoteEntity>> // Flow for getting all the notes without refresh :D
 }
