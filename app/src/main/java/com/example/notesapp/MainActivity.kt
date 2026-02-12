@@ -6,12 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-
-import androidx.compose.material3.Scaffold
-
-import androidx.compose.ui.Modifier
-
+import androidx.navigation.compose.rememberNavController
 import com.example.notesapp.ui.theme.NotesAppTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -31,11 +26,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NotesAppTheme {
-               Scaffold(modifier = Modifier.fillMaxSize()
-               ) { innerPadding ->
-                   NotePage(padding = innerPadding, viewModel = viewModel)
-
-               }
+                val navController = rememberNavController()
+                NotesNavGraph(
+                    viewModel = viewModel,
+                    navigationController = navController
+                )
             }
         }
     }

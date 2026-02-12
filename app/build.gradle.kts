@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.core)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -57,7 +58,7 @@ dependencies {
 
 
     val room_version = "2.8.4"
-
+    val nav_version = "2.9.7"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
 
@@ -67,6 +68,8 @@ dependencies {
     // Compose + lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
     implementation("androidx.compose.runtime:runtime-livedata")
+
+    implementation("androidx.navigation:navigation-compose:${nav_version}")
 
 
 }
