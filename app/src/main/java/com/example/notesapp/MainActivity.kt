@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
+import com.example.notesapp.data.NotesDatabase
 import com.example.notesapp.ui.theme.NotesAppTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

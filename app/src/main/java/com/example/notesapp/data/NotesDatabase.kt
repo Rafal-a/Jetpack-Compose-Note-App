@@ -1,15 +1,17 @@
-package com.example.notesapp
+package com.example.notesapp.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.notesapp.Constants
+import com.example.notesapp.data.Converter
+import com.example.notesapp.data.NoteEntity
+import com.example.notesapp.NotesDao
 
-
-@Database(entities = [NoteEntity::class], version = Constants.TABLE_VERSION)
+@Database(entities = [NoteEntity::class], version = Constants.TABLE_VERSION, exportSchema = false)
 @TypeConverters(Converter::class) // bring converters from Converter class
-
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun notesDao(): NotesDao
 

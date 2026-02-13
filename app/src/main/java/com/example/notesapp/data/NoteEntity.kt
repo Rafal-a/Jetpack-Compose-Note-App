@@ -1,8 +1,9 @@
-package com.example.notesapp
+package com.example.notesapp.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.notesapp.Constants
 import java.util.Date
 
 @Entity(tableName = Constants.TABLE_NAME)
@@ -14,5 +15,5 @@ data class NoteEntity(
     @ColumnInfo(name = "content")
     val content: String,
     @ColumnInfo(name = "date")
-    val date: Long = System.currentTimeMillis(),
+    val date: Long=System.currentTimeMillis(),
 )

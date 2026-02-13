@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.data
 
 import androidx.room.TypeConverter
 import java.sql.Date
@@ -6,12 +6,12 @@ import java.sql.Date
 class Converter {
 
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
+    fun fromLongToDate(value: Long?): Date? {
         return value?.let { Date(it) }
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
+    fun fromDateToLong(date: Date?): Long? {
         return date?.time
     }
 }

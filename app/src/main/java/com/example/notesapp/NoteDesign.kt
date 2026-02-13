@@ -1,5 +1,6 @@
 package com.example.notesapp
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,21 +16,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.text.SimpleDateFormat
+import android.text.format.DateFormat
 import java.util.Date
-import java.util.Locale
 
 
 @Composable
 fun NoteDesign( title: String,
                 content: String,
-                date: Date = Date(),
+                date: Long=0L,
                 onClick: () -> Unit) {
+
+    val context = LocalContext.current
 
     Card( modifier = Modifier
         .wrapContentWidth()
@@ -50,7 +53,7 @@ fun NoteDesign( title: String,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = SimpleDateFormat("HH:mm:aa", Locale.ENGLISH).format(date),
+                    text = formatDate(date,context),
                     maxLines = 1,
                     textAlign = TextAlign.End
                 )
@@ -64,4 +67,10 @@ fun NoteDesign( title: String,
             )
         }
     }
+}
+
+fun formatDate(timestamp: Long, context: Context): String {
+    val is24Hour = DateFormat.is24HourFormat(context)
+    val pattern = if (is24Hour) "HH:mm" else "hh:mm a"
+    return DateFormat.format(pattern, Date(timestamp)).toString()
 }

@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
+import com.example.notesapp.NoteDesign
+import com.example.notesapp.NoteViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,6 +72,7 @@ fun NotePage(
                         NoteDesign(
                             title = note.title,
                             content = note.content,
+                            date = note.date,
                             onClick = { onNoteClick(note.id) }
                         )
                     }
