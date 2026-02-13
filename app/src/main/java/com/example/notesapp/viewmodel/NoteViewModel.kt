@@ -1,21 +1,16 @@
-package com.example.notesapp
+package com.example.notesapp.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notesapp.data.NoteEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import com.example.notesapp.data.repository.NoteRepository
+import com.example.notesapp.data.model.NoteEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.collections.emptyList
-import kotlin.time.Duration.Companion.seconds
 
 class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
 

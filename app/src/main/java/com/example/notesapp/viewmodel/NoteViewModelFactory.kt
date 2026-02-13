@@ -1,7 +1,8 @@
-package com.example.notesapp
+package com.example.notesapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.notesapp.data.repository.NoteRepository
 
 class NoteViewModelFactory(
     private val repository: NoteRepository

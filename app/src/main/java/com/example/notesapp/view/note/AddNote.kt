@@ -1,4 +1,4 @@
-package com.example.notesapp.view
+package com.example.notesapp.view.note
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -33,10 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.notesapp.data.NoteEntity
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.example.notesapp.data.model.NoteEntity
 
 
 @OptIn(ExperimentalMaterial3Api::class)

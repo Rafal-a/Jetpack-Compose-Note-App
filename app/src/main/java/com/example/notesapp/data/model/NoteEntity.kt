@@ -1,10 +1,9 @@
-package com.example.notesapp.data
+package com.example.notesapp.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.notesapp.Constants
-import java.util.Date
+import com.example.notesapp.utils.Constants
 
 @Entity(tableName = Constants.TABLE_NAME)
 data class NoteEntity(

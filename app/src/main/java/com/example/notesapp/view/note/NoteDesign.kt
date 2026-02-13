@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.view.note
 
 import android.content.Context
 import androidx.compose.foundation.clickable
@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.text.format.DateFormat
+import com.example.notesapp.utils.Binding
 import java.util.Date
 
 

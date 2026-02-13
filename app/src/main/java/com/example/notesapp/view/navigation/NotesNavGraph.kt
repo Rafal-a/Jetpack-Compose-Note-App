@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.view.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,8 +8,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.notesapp.view.AddNote
-import com.example.notesapp.view.NotePage
+import com.example.notesapp.viewmodel.NoteViewModel
+import com.example.notesapp.view.note.AddNote
+import com.example.notesapp.view.note.NotePage
 
 @Composable
 fun NotesNavGraph(

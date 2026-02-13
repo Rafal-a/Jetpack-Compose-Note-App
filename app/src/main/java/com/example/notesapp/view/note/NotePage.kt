@@ -1,6 +1,5 @@
-package com.example.notesapp.view
+package com.example.notesapp.view.note
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -33,11 +32,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.notesapp.NoteDesign
-import com.example.notesapp.NoteViewModel
+import com.example.notesapp.viewmodel.NoteViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,12 +1,12 @@
-package com.example.notesapp
+package com.example.notesapp.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.notesapp.data.NoteEntity
+import com.example.notesapp.utils.Constants
+import com.example.notesapp.data.model.NoteEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

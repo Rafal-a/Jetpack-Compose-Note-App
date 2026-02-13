@@ -1,7 +1,7 @@
-package com.example.notesapp
+package com.example.notesapp.data.repository
 
-import androidx.lifecycle.LiveData
-import com.example.notesapp.data.NoteEntity
+import com.example.notesapp.data.local.NotesDao
+import com.example.notesapp.data.model.NoteEntity
 import kotlinx.coroutines.flow.Flow
 
 class NoteRepository(private val _dao : NotesDao) {
