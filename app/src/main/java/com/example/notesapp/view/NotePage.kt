@@ -1,26 +1,39 @@
 package com.example.notesapp.view
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.notesapp.NoteDesign
@@ -34,9 +47,58 @@ fun NotePage(
     viewModel: NoteViewModel,
     onAddClick: () -> Unit
 ) {
-    val notes by viewModel.notes.collectAsStateWithLifecycle(initialValue = emptyList())
+    val notes by viewModel.notes.collectAsStateWithLifecycle(emptyList())
+    var isSearching by rememberSaveable { mutableStateOf(false) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    if (isSearching) {
+                        TextField(
+                            value = searchQuery,
+                            onValueChange = {
+                                searchQuery = it
+                                viewModel.onSearchChange(it)
+                            },
+                            placeholder = { Text("Search notes…") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent
+                            )
+                        )
+                    } else {
+                        Text("Notes App")
+                    }
+                },
+                navigationIcon = {
+                    if (isSearching) {
+                        IconButton(onClick = {
+                            isSearching = false
+                            searchQuery = ""
+                            viewModel.onSearchChange("")
+                        }) {
+                            Icon(
+                                Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = "Close search"
+                            )
+                        }
+                    }
+                },
+                actions = {
+                    if (!isSearching) {
+                        IconButton(onClick = { isSearching = true }) {
+                            Icon(Icons.Default.Search, contentDescription = "Search")
+                        }
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddClick) {
                 Icon(Icons.Default.Add, contentDescription = "Add Note")
@@ -45,28 +107,24 @@ fun NotePage(
     ) { padding ->
 
         LazyColumn(modifier = Modifier.padding(padding)) {
-            items(
-                items = notes,
-                key = { note -> note.id }
-            ) { note ->
+            items(notes, key = { it.id }) { note ->
 
                 val dismissState = rememberSwipeToDismissBoxState(
                     confirmValueChange = { value ->
-                        if (value == SwipeToDismissBoxValue.StartToEnd ||
+                        if (
+                            value == SwipeToDismissBoxValue.StartToEnd ||
                             value == SwipeToDismissBoxValue.EndToStart
                         ) {
                             viewModel.deleteNote(note)
                             true
-                        } else {
-                            false
-                        }
+                        } else false
                     }
                 )
 
                 SwipeToDismissBox(
                     state = dismissState,
                     backgroundContent = {
-                        DeleteBackgroundM3(dismissState.dismissDirection)
+                        DeleteBackgroundM3(dismissState.currentValue)
                     },
                     content = {
                         NoteDesign(
@@ -90,7 +148,7 @@ fun DeleteBackgroundM3(direction: SwipeToDismissBoxValue) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(if (isSwiping) Color.Gray else Color.Transparent)
+            .background(if (isSwiping) Color.Red else Color.Transparent)
             .padding(horizontal = 8.dp, vertical = 6.dp),
         contentAlignment = if (direction == SwipeToDismissBoxValue.StartToEnd)
             Alignment.CenterStart else Alignment.CenterEnd
@@ -98,10 +156,28 @@ fun DeleteBackgroundM3(direction: SwipeToDismissBoxValue) {
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = "Delete",
-            tint = Color.White
+            tint = Color.Red
         )
     }
 }
 
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit
+) {
+    TextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        placeholder = { Text("Search notes...") },
+        singleLine = true,
+        leadingIcon = {
+            Icon(Icons.Default.Search, contentDescription = null)
+        }
+    )
+}
 
 

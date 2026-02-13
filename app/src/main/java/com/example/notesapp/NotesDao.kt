@@ -24,4 +24,12 @@ interface NotesDao{
 
     @Query("SELECT * FROM ${Constants.TABLE_NAME} ORDER BY id DESC")
     fun getAllNotes(): Flow<List<NoteEntity>> // Flow for getting all the notes without refresh :D
+
+    @Query("""
+        SELECT * FROM Notes
+        WHERE title LIKE '%' || :query || '%'
+           OR content LIKE '%' || :query || '%'
+        ORDER BY id DESC
+    """)
+    fun searchNotes(query: String): Flow<List<NoteEntity>>
 }

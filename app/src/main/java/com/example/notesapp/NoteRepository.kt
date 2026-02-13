@@ -22,7 +22,9 @@ class NoteRepository(private val _dao : NotesDao) {
     suspend fun getNoteById(id: Long): NoteEntity? {
         return _dao.getNoteById(id)
     }
-
+    suspend fun searchNotes(query: String): Flow<List<NoteEntity>> {
+        return _dao.searchNotes(query)
+    }
     fun getAllNotes(): Flow<List<NoteEntity>> {
         return _dao.getAllNotes()
     }

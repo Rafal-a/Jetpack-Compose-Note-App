@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -18,11 +19,27 @@ import kotlin.time.Duration.Companion.seconds
 
 class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    val notes: StateFlow<List<NoteEntity>> = repository.getAllNotes().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5.seconds)
-        ,initialValue = emptyList())
 
+    private val searchQuery = MutableStateFlow("")
+
+    val notes: StateFlow<List<NoteEntity>> =
+        searchQuery
+            .flatMapLatest { query ->
+                if (query.isBlank()) {
+                    repository.getAllNotes()
+                } else {
+                    repository.searchNotes(query)
+                }
+            }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5_000),
+                emptyList()
+            )
+
+    fun onSearchChange(query: String) {
+        searchQuery.value = query
+    }
     private val _selectedNote = MutableStateFlow<NoteEntity?>(null)
     val selectedNote: StateFlow<NoteEntity?> = _selectedNote
 
