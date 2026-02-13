@@ -25,6 +25,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,12 +45,20 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddNote(
+    initialNote: NoteEntity? = null,
     onSave: (NoteEntity) -> Unit,
     onBack: () -> Unit
 ){
         var title by rememberSaveable { mutableStateOf("") }
         var content by rememberSaveable { mutableStateOf("") }
         val context = LocalContext.current.applicationContext
+
+    LaunchedEffect(initialNote) {
+        if (initialNote != null) {
+            title = initialNote.title
+            content = initialNote.content
+        }
+    }
 
 
     Scaffold(
@@ -60,7 +69,7 @@ fun AddNote(
                         titleContentColor = Color.Black,
                         navigationIconContentColor = Color.Black
                     ),
-                    title = { Text("Add Note") },
+                    title = { Text(if (initialNote == null) "Add Note" else "Edit Note") },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(
@@ -74,10 +83,11 @@ fun AddNote(
                             onClick = {
                                 if (title.isNotBlank() || content.isNotBlank()) {
                                     onSave(
-                                        NoteEntity(
-                                            title = title,
-                                            content = content,
-                                        )
+                                        (initialNote ?: NoteEntity(title = title, content = content))
+                                            .copy(
+                                                title = title,
+                                                content = content
+                                            )
                                     )
                                 }
                                 Toast.makeText(context,"Note Saved",Toast.LENGTH_SHORT).show()

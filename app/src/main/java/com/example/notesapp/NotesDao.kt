@@ -18,6 +18,9 @@ interface NotesDao{
     @Update
     suspend fun updateNote(note: NoteEntity)
 
+    @Query("SELECT * FROM ${Constants.TABLE_NAME} ORDER BY id=:id DESC")
+    suspend fun getNoteById(id: Long): NoteEntity?
+
     @Query("SELECT * FROM ${Constants.TABLE_NAME}")
     fun getAllNotes(): Flow<List<NoteEntity>> // Flow for getting all the notes without refresh :D
 }

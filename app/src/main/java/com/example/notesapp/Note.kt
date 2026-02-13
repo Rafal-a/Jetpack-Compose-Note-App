@@ -1,5 +1,6 @@
 package com.example.notesapp
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -40,10 +42,15 @@ data class Note(
 )
 
 @Composable
-fun NoteDesign(title: String="place holder" , content: String="place holder", date: Date = Date() ) {
-    Card(onClick = {}, modifier = Modifier
+fun NoteDesign( title: String,
+                content: String,
+               date: Date = Date(),
+               onClick: () -> Unit) {
+
+    Card( modifier = Modifier
         .wrapContentWidth()
         .fillMaxWidth()
+        .clickable { onClick() }
         .padding(horizontal = 8.dp, vertical = 6.dp),
         colors = CardDefaults.cardColors(Binding.bindingColors().color),
         shape = RoundedCornerShape(10.dp)) {
@@ -73,29 +80,4 @@ fun NoteDesign(title: String="place holder" , content: String="place holder", da
             )
         }
     }
-}
-
-@Composable
-fun NoteList() {
-        NoteDesign("title", "content",)
-        NoteDesign("title 2", "content2",)
-        NoteDesign("title 3", "content 3",)
-        NoteDesign("title 4", "content 4",)
-        NoteDesign("title", "content",)
-        NoteDesign("title 2", "content2",)
-        NoteDesign("title 3", "content 3")
-        NoteDesign("title 4", "content 4")
-        NoteDesign("title", "content")
-        NoteDesign("title 2", "content2")
-        NoteDesign("title 3", "content 3",)
-        NoteDesign("title 4", "content 4")
-        NoteDesign("title", "content")
-        NoteDesign("title 2", "content2",)
-        NoteDesign("title 3", "content 3",)
-        NoteDesign("title 4", "content 4")
-}
-@Composable
-@Preview (showBackground = true)
-fun NotePreview(){
-    NoteDesign()
 }

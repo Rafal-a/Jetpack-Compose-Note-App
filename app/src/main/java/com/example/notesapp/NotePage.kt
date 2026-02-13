@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun NotePage(
+    onNoteClick: (Long) -> Unit,
     viewModel: NoteViewModel,
     onAddClick: () -> Unit
 ) {
@@ -35,8 +36,12 @@ fun NotePage(
             items(notes) { note ->
                 NoteDesign(
                     title = note.title,
-                    content = note.content
-                )
+                    content = note.content,
+                    onClick = {
+                        onNoteClick(note.id)
+                    }
+
+                        )
             }
         }
     }

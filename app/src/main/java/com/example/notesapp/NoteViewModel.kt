@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
@@ -21,17 +22,19 @@ class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
         started = SharingStarted.WhileSubscribed(5.seconds)
         ,initialValue = emptyList())
 
+    private val _selectedNote = MutableStateFlow<NoteEntity?>(null)
+    val selectedNote: StateFlow<NoteEntity?> = _selectedNote
 
+
+    fun getNoteById(id: Long){
+        viewModelScope.launch {
+            _selectedNote.value = repository.getNoteById(id)
+        }
+    }
 
     fun insertNote(note: NoteEntity) {
         viewModelScope.launch {
             repository.insertNote(note)
-        }
-    }
-
-    fun deleteNoteById(note: NoteEntity) {
-        viewModelScope.launch {
-            repository.deleteNoteById(note)
         }
     }
 
